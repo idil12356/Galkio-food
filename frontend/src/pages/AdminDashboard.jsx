@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import API from '../api';
+import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useLang } from '../context/LangContext';
 import { useTheme } from '../context/ThemeContext';
@@ -33,7 +33,7 @@ export default function AdminDashboard() {
 
   const fetchStats = async () => {
     try {
-      const res = await API.get(`/api/admin/stats?period=${period}`);
+      const res = await axios.get(`/api/admin/stats?period=${period}`);
       setStats(res.data);
     } catch { toast.error('Failed to load stats'); }
     finally { setLoading(false); }

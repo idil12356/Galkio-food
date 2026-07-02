@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useLang } from '../context/LangContext';
-import API from '../api';
+import axios from 'axios';
 import toast from 'react-hot-toast';
 
 export default function Cart() {
@@ -37,7 +37,7 @@ export default function Cart() {
     if (payMethod==='card' && (!cardNum||!cardExp||!cardCvc)) return toast.error('Fill card details');
     try {
       setPlacing(true);
-      const res = await API.post('/api/orders', {
+      const res = await axios.post('/api/orders', {
         items: cart.map(i=>({ menuItem:i._id, name:i.name, price:i.price, quantity:i.quantity, image:i.image })),
         totalAmount:total, deliveryFee,
         address:{ street:address.street, city:address.city, zipCode:address.zipCode, fullAddress:`${address.street}, ${address.city}${address.zipCode?' '+address.zipCode:''}` },

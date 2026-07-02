@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import API from '../api';
+import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useLang } from '../context/LangContext';
@@ -20,7 +20,7 @@ export default function Home() {
   const [popular, setPopular] = useState(DEMO);
 
   useEffect(() => {
-    API.get('/api/menu').then(res => { if (res.data?.length > 0) setPopular(res.data.slice(0,4)); }).catch(()=>{});
+    axios.get('/api/menu').then(res => { if (res.data?.length > 0) setPopular(res.data.slice(0,4)); }).catch(()=>{});
   }, []);
 
   return (

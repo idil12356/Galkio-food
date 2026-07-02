@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import API from '../api';
+import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useCart } from '../context/CartContext';
@@ -31,7 +31,7 @@ export default function Menu() {
   const fetchMenu = async () => {
     setLoading(true);
     try {
-      const res = await API.get(`/api/menu?category=${cat}`);
+      const res = await axios.get(`/api/menu?category=${cat}`);
       setItems(res.data);
     } catch { setItems(DEMO.filter(i => cat==='All'||i.category===cat)); }
     finally { setLoading(false); }
