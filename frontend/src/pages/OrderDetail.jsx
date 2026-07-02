@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import API from '../api';
 import Navbar from '../components/Navbar';
 import { useAuth } from '../context/AuthContext';
 import { useLang } from '../context/LangContext';
@@ -32,7 +32,7 @@ export default function OrderDetail() {
 
   const fetchOrder = async () => {
     try {
-      const res = await axios.get(`/api/orders/${id}`);
+      const res = await API.get(`/api/orders/${id}`);
       setOrder(res.data);
     } catch { navigate('/orders'); }
     finally { setLoading(false); }

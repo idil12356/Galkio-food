@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import API from '../api';
 import { useLang } from '../context/LangContext';
 import toast from 'react-hot-toast';
 
@@ -20,10 +20,10 @@ export default function AdminMenu() {
 
   const fetchMenu = async () => {
     try {
-      const res = await axios.get('/api/menu/all');
+      const res = await API.get('/api/menu/all');
       setItems(res.data);
     } catch {
-      const res = await axios.get('/api/menu');
+      const res = await API.get('/api/menu');
       setItems(res.data);
     }
   };
@@ -63,11 +63,11 @@ export default function AdminMenu() {
       else if (form.imagePreview) data.append('imageUrl', form.imagePreview);
 
       if (editItem) {
-        const res = await axios.put(`/api/menu/${editItem._id}`, data, { headers:{'Content-Type':'multipart/form-data'} });
+        const res = await API.put(`/api/menu/${editItem._id}`, data, { headers:{'Content-Type':'multipart/form-data'} });
         setItems(prev => prev.map(i => i._id===editItem._id ? res.data : i));
         toast.success('Item updated ✅');
       } else {
-        const res = await axios.post('/api/menu', data, { headers:{'Content-Type':'multipart/form-data'} });
+       const res = await API.post('/api/menu', data, { headers:{'Content-Type':'multipart/form-data'} });
         setItems(prev => [...prev, res.data]);
         toast.success('Item added! ✅');
       }
@@ -79,7 +79,7 @@ export default function AdminMenu() {
   const handleDelete = async (id) => {
     if (!confirm('Delete this item?')) return;
     try {
-      await axios.delete(`/api/menu/${id}`);
+      await API.delete(`/api/menu/${id}`);
       setItems(prev => prev.filter(i => i._id!==id));
       toast.success('Item deleted');
     } catch { toast.error('Failed to delete'); }

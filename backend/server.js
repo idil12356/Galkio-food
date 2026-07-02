@@ -9,7 +9,14 @@ dotenv.config();
 
 const app = express();
 app.use(helmet({ crossOriginResourcePolicy: false }));
-app.use(cors({ origin: ['http://localhost:5173','http://localhost:3000'], credentials: true }));
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://galkio-food.vercel.app'
+  ],
+  credentials: true
+}));
 app.use(express.json({ limit: '10mb' }));
 
 const limiter = rateLimit({ windowMs: 15*60*1000, max: 200 });

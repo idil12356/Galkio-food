@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import API from '../api';
 import { useLang } from '../context/LangContext';
 import toast from 'react-hot-toast';
 
@@ -25,7 +25,7 @@ export default function AdminOrders() {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get(`/api/admin/orders?status=${filter}`);
+      await API.get(`/api/admin/orders?status=${filter}`);
       const fetchedOrders = res.data;
 
       // Detect new orders
@@ -47,7 +47,7 @@ export default function AdminOrders() {
   const updateStatus = async (id, status, cancelledBy) => {
     if (cancelledBy === 'user') { toast.error('Cannot change user-cancelled orders'); return; }
     try {
-      await axios.put(`/api/admin/orders/${id}`, { status });
+      await API.put(`/api/admin/orders/${id}`, { status });
       setOrders(prev => prev.map(o => o._id===id ? { ...o, status } : o));
       toast.success('Status updated ✅');
     } catch (err) { toast.error(err.response?.data?.message || 'Failed to update'); }

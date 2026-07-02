@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import API from '../api';
 import { useAuth } from '../context/AuthContext';
 import { useLang } from '../context/LangContext';
 import Navbar from '../components/Navbar';
@@ -17,7 +17,7 @@ export default function Login() {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await axios.post('/api/auth/login', form);
+      const res = await API.post('/api/auth/login', form);
       login(res.data.user, res.data.token);
       toast.success(`Welcome back, ${res.data.user.name}! 👋`);
       navigate(res.data.user.role === 'admin' ? '/admin' : '/');
